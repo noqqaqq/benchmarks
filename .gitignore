@@ -33,6 +33,7 @@
 
 # building
 build/*
+install/*
 
 #vscode
 settings.json

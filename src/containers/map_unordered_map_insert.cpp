@@ -1,3 +1,4 @@
+#include <absl/container/flat_hash_map.h>
 #include <benchmark/benchmark.h>
 
 #include <map>
@@ -40,3 +41,14 @@ static void unordered_map_insert(benchmark::State& state) {
   }
 }
 BENCHMARK(unordered_map_insert);
+
+static void absl_flat_hash_map_insert(benchmark::State& state) {
+  absl::flat_hash_map<std::string, int> map;
+  for (auto _ : state) {
+    for (int i{0}; i < elements; ++i) {
+      map.try_emplace(gen_random_string(9), (int)rand());
+    }
+    state.SetItemsProcessed(elements);
+  }
+}
+BENCHMARK(absl_flat_hash_map_insert);

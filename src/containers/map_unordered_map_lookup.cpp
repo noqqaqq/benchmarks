@@ -1,3 +1,4 @@
+#include <absl/container/flat_hash_map.h>
 #include <benchmark/benchmark.h>
 
 #include <map>
@@ -49,7 +50,8 @@ static void map_lookup(benchmark::State& state) {
 BENCHMARK(map_lookup);
 
 static void unordered_map_lookup(benchmark::State& state) {
-  auto [map, keys] = generate_map<std::unordered_map<std::string, int>>(elements);
+  auto [map, keys] =
+      generate_map<std::unordered_map<std::string, int>>(elements);
   for (auto _ : state) {
     for (size_t i{0}; i < elements; ++i) {
       auto& e = map.at(keys[i]);
@@ -59,3 +61,16 @@ static void unordered_map_lookup(benchmark::State& state) {
   }
 }
 BENCHMARK(unordered_map_lookup);
+
+static void absl_flat_hash_map_lookup(benchmark::State& state) {
+  auto [map, keys] =
+      generate_map<absl::flat_hash_map<std::string, int>>(elements);
+  for (auto _ : state) {
+    for (size_t i{0}; i < elements; ++i) {
+      auto& e = map.at(keys[i]);
+      benchmark::DoNotOptimize(e);
+    }
+    state.SetItemsProcessed(elements);
+  }
+}
+BENCHMARK(absl_flat_hash_map_lookup);
