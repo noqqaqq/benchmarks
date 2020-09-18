@@ -36,4 +36,4 @@ build/*
 install/*
 
 #vscode
-settings.json
+.vscode/*

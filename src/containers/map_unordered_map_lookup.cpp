@@ -37,7 +37,7 @@ static std::pair<MAP_TYPE, std::vector<std::string>> generate_map(
   return {map, keys};
 }
 
-static void map_lookup(benchmark::State& state) {
+static void containers_map_lookup(benchmark::State& state) {
   auto [map, keys] = generate_map<std::map<std::string, int>>(elements);
   for (auto _ : state) {
     for (size_t i{0}; i < elements; ++i) {
@@ -47,9 +47,9 @@ static void map_lookup(benchmark::State& state) {
     state.SetItemsProcessed(elements);
   }
 }
-BENCHMARK(map_lookup);
+BENCHMARK(containers_map_lookup);
 
-static void unordered_map_lookup(benchmark::State& state) {
+static void containers_unordered_map_lookup(benchmark::State& state) {
   auto [map, keys] =
       generate_map<std::unordered_map<std::string, int>>(elements);
   for (auto _ : state) {
@@ -60,9 +60,9 @@ static void unordered_map_lookup(benchmark::State& state) {
     state.SetItemsProcessed(elements);
   }
 }
-BENCHMARK(unordered_map_lookup);
+BENCHMARK(containers_unordered_map_lookup);
 
-static void absl_flat_hash_map_lookup(benchmark::State& state) {
+static void containers_absl_flat_hash_map_lookup(benchmark::State& state) {
   auto [map, keys] =
       generate_map<absl::flat_hash_map<std::string, int>>(elements);
   for (auto _ : state) {
@@ -73,4 +73,4 @@ static void absl_flat_hash_map_lookup(benchmark::State& state) {
     state.SetItemsProcessed(elements);
   }
 }
-BENCHMARK(absl_flat_hash_map_lookup);
+BENCHMARK(containers_absl_flat_hash_map_lookup);

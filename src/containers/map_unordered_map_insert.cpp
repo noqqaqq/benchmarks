@@ -20,7 +20,7 @@ static std::string gen_random_string(std::size_t const length) {
   return result;
 }
 
-static void map_insert(benchmark::State& state) {
+static void containers_map_insert(benchmark::State& state) {
   std::map<std::string, int> map;
   for (auto _ : state) {
     for (int i{0}; i < elements; ++i) {
@@ -29,9 +29,9 @@ static void map_insert(benchmark::State& state) {
     state.SetItemsProcessed(elements);
   }
 }
-BENCHMARK(map_insert);
+BENCHMARK(containers_map_insert);
 
-static void unordered_map_insert(benchmark::State& state) {
+static void containers_unordered_map_insert(benchmark::State& state) {
   std::unordered_map<std::string, int> map;
   for (auto _ : state) {
     for (int i{0}; i < elements; ++i) {
@@ -40,9 +40,9 @@ static void unordered_map_insert(benchmark::State& state) {
     state.SetItemsProcessed(elements);
   }
 }
-BENCHMARK(unordered_map_insert);
+BENCHMARK(containers_unordered_map_insert);
 
-static void absl_flat_hash_map_insert(benchmark::State& state) {
+static void containers_absl_flat_hash_map_insert(benchmark::State& state) {
   absl::flat_hash_map<std::string, int> map;
   for (auto _ : state) {
     for (int i{0}; i < elements; ++i) {
@@ -51,4 +51,4 @@ static void absl_flat_hash_map_insert(benchmark::State& state) {
     state.SetItemsProcessed(elements);
   }
 }
-BENCHMARK(absl_flat_hash_map_insert);
+BENCHMARK(containers_absl_flat_hash_map_insert);

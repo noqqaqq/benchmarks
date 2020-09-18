@@ -10,7 +10,7 @@ find_package(Boost COMPONENTS container REQUIRED)
 find_package(Threads REQUIRED)
 
 set(SOURCE_FILES
-  src/allocations/memory_pools.cpp
+  src/allocations/boost_pmr.cpp
   src/containers/map_unordered_map_insert.cpp
   src/containers/map_unordered_map_lookup.cpp
 )

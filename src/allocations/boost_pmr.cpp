@@ -4,12 +4,10 @@
 #include <boost/container/pmr/unsynchronized_pool_resource.hpp>
 #include <boost/container/pmr/vector.hpp>
 
-namespace allocations_boost_pmr {
-
 constexpr size_t vector_elements_1{1024};
 constexpr size_t vector_elements_2{1024 * 1024};
 
-static void ALLOC_MEMPOOLS_pure_vector_pb(benchmark::State& state) {
+static void allocations_boost_pmr_pure_vector_pb(benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     std::vector<size_t> v;
@@ -20,11 +18,11 @@ static void ALLOC_MEMPOOLS_pure_vector_pb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_pure_vector_pb)
+BENCHMARK(allocations_boost_pmr_pure_vector_pb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
 
-static void ALLOC_MEMPOOLS_pure_vector_eb(benchmark::State& state) {
+static void allocations_boost_pmr_pure_vector_eb(benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     std::vector<size_t> v;
@@ -35,11 +33,11 @@ static void ALLOC_MEMPOOLS_pure_vector_eb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_pure_vector_eb)
+BENCHMARK(allocations_boost_pmr_pure_vector_eb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
 
-static void ALLOC_MEMPOOLS_reserve_vector_pb(benchmark::State& state) {
+static void allocations_boost_pmr_reserve_vector_pb(benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     std::vector<size_t> v;
@@ -51,11 +49,11 @@ static void ALLOC_MEMPOOLS_reserve_vector_pb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_reserve_vector_pb)
+BENCHMARK(allocations_boost_pmr_reserve_vector_pb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
 
-static void ALLOC_MEMPOOLS_reserve_vector_eb(benchmark::State& state) {
+static void allocations_boost_pmr_reserve_vector_eb(benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     std::vector<size_t> v;
@@ -67,11 +65,11 @@ static void ALLOC_MEMPOOLS_reserve_vector_eb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_reserve_vector_eb)
+BENCHMARK(allocations_boost_pmr_reserve_vector_eb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
 
-static void ALLOC_MEMPOOLS_pmr_vector_pb(benchmark::State& state) {
+static void allocations_boost_pmr_pmr_vector_pb(benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     auto pool_options{boost::container::pmr::pool_options{}};
@@ -92,17 +90,17 @@ static void ALLOC_MEMPOOLS_pmr_vector_pb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_pmr_vector_pb)
+BENCHMARK(allocations_boost_pmr_pmr_vector_pb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
 
-static void ALLOC_MEMPOOLS_pmr_vector_eb(benchmark::State& state) {
+static void allocations_boost_pmr_pmr_vector_eb(benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     auto pool_options{boost::container::pmr::pool_options{}};
     pool_options.max_blocks_per_chunk = 1024;
     pool_options.largest_required_pool_block = 1024 * 1024 * 8;
-    const size_t resource_size = vector_elements * sizeof(int) + 1024;
+    const size_t resource_size = 20 * vector_elements * sizeof(int) + 1024;
     char buffer[resource_size];
     boost::container::pmr::monotonic_buffer_resource monotonic_resource{
         &buffer, resource_size};
@@ -117,11 +115,12 @@ static void ALLOC_MEMPOOLS_pmr_vector_eb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_pmr_vector_eb)
+BENCHMARK(allocations_boost_pmr_pmr_vector_eb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
 
-static void ALLOC_MEMPOOLS_pmr_reserve_vector_pb(benchmark::State& state) {
+static void allocations_boost_pmr_pmr_reserve_vector_pb(
+    benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     auto pool_options{boost::container::pmr::pool_options{}};
@@ -143,11 +142,12 @@ static void ALLOC_MEMPOOLS_pmr_reserve_vector_pb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_pmr_reserve_vector_pb)
+BENCHMARK(allocations_boost_pmr_pmr_reserve_vector_pb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
 
-static void ALLOC_MEMPOOLS_pmr_reserve_vector_eb(benchmark::State& state) {
+static void allocations_boost_pmr_pmr_reserve_vector_eb(
+    benchmark::State& state) {
   const auto vector_elements{state.range(0)};
   for (auto _ : state) {
     auto pool_options{boost::container::pmr::pool_options{}};
@@ -169,8 +169,6 @@ static void ALLOC_MEMPOOLS_pmr_reserve_vector_eb(benchmark::State& state) {
     benchmark::DoNotOptimize(v);
   }
 }
-BENCHMARK(ALLOC_MEMPOOLS_pmr_reserve_vector_eb)
+BENCHMARK(allocations_boost_pmr_pmr_reserve_vector_eb)
     ->Arg(vector_elements_1)
     ->Arg(vector_elements_2);
-
-}  // namespace allocations_boost_pmr
